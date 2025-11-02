@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '22.x' # set this to the node version to use (supports 8.x, 10.x, 12.x)
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'backend' # set this to the path to your web app project
+  NODE_VERSION: '22.x' # set this to the node version to use
 
 jobs:
   build:
@@ -38,7 +38,11 @@ jobs:
           popd
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        shell: bash
+        run: |
+          cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          zip -r ../release.zip ./*
+          cd ..
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -67,5 +71,8 @@ jobs:
         with:
           app-name: 'Masterscheduling'
           slot-name: 'Production'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: '.' # Files are extracted to root after unzipping
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4CF660BDBA4F4F679B25C52D07BDAA0A }}
+        # Note: This workflow uses Zip Deployment (recommended by Azure)
+        # Ensure WEBSITE_RUN_FROM_PACKAGE=1 is set in Azure Portal > Function App > Configuration > Application Settings
+        # This setting enables running from the deployment package and is required for optimal deployment behavior
