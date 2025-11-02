@@ -1,13 +1,21 @@
 import sql from 'mssql';
-import { config } from '../local.settings.json';
+
+// Try to import local.settings.json if it exists (for local development)
+let localConfig: { Values?: { [key: string]: string } } | null = null;
+try {
+  // @ts-ignore - local.settings.json may not exist in production/CI
+  localConfig = require('../local.settings.json');
+} catch (e) {
+  // local.settings.json doesn't exist (production/CI environment), use environment variables only
+}
 
 let pool: sql.ConnectionPool | null = null;
 
 const sqlConfig: sql.config = {
-  server: process.env.SQL_SERVER || config?.Values?.SQL_SERVER || '',
-  database: process.env.SQL_DATABASE || config?.Values?.SQL_DATABASE || '',
-  user: process.env.SQL_USER || config?.Values?.SQL_USER || '',
-  password: process.env.SQL_PASSWORD || config?.Values?.SQL_PASSWORD || '',
+  server: process.env.SQL_SERVER || localConfig?.Values?.SQL_SERVER || '',
+  database: process.env.SQL_DATABASE || localConfig?.Values?.SQL_DATABASE || '',
+  user: process.env.SQL_USER || localConfig?.Values?.SQL_USER || '',
+  password: process.env.SQL_PASSWORD || localConfig?.Values?.SQL_PASSWORD || '',
   options: {
     encrypt: true,
     trustServerCertificate: false,
