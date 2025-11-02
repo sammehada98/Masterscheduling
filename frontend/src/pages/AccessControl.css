@@ -1,0 +1,23 @@
+.access-control {
+  min-height: 100vh;
+}
+
+.access-control-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  text-align: center;
+}
+
+.access-control-error h2 {
+  color: #dc2626;
+  margin-bottom: 16px;
+}
+
+.access-control-error p {
+  color: #6b7280;
+  max-width: 500px;
+}
