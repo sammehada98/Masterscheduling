@@ -1,8 +1,10 @@
 import { HttpRequest, HttpResponseInit } from '@azure/functions';
 import { verifyToken, extractToken, TokenPayload } from './security';
 
-export interface AuthenticatedRequest extends HttpRequest {
-  user?: TokenPayload;
+// AuthenticatedRequest is a utility interface for extending HttpRequest with user info
+// Note: We don't actually extend HttpRequest.user to avoid type conflicts
+export interface AuthenticatedRequest extends Omit<HttpRequest, 'user'> {
+  user: TokenPayload;
 }
 
 /**
