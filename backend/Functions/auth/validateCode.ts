@@ -56,7 +56,7 @@ app.http('validateCode', {
       // Check if code matches trainer code
       const isTrainer = await compareCode(code, link.trainerCodeHash);
       if (isTrainer) {
-        await logAccess(link.id, 'trainer', ipAddress, userAgent);
+        await logAccess(link.id, 'admin', ipAddress, userAgent);
         
         const token = generateToken({
           linkId: link.id,

@@ -17,10 +17,10 @@ app.http('getDepartments', {
         };
       }
 
-      // Return all departments for admin, or filtered for customer
+      // Return all departments for trainer (admin), or filtered for customer
       let departments: string[] = [];
       
-      if (auth.user.codeType === 'admin') {
+      if (auth.user.codeType === 'trainer') {
         departments = DEPARTMENTS;
       } else if (auth.user.codeType === 'customer' && auth.user.departments) {
         departments = auth.user.departments;

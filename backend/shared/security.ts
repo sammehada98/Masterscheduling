@@ -52,10 +52,14 @@ export function generateSecureCode(length: number = 8): string {
  * Generate JWT token for authenticated users
  */
 export function generateToken(payload: TokenPayload): string {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRY,
+  if (!JWT_SECRET || JWT_SECRET === 'your-secret-key-change-in-production') {
+    throw new Error('JWT_SECRET must be set in environment variables');
+  }
+  // Cast payload to object and options to SignOptions to satisfy TypeScript
+  return jwt.sign(payload as object, JWT_SECRET, {
+    expiresIn: JWT_EXPIRY as string,
     issuer: 'master-scheduling-app',
-  });
+  } as jwt.SignOptions);
 }
 
 /**
