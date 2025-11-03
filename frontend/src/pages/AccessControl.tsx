@@ -17,6 +17,14 @@ export const AccessControl: React.FC = () => {
       <div className="access-control-error">
         <h2>Invalid Link</h2>
         <p>This link is missing a unique identifier. Please check your link and try again.</p>
+        <div style={{ marginTop: '20px' }}>
+          <button
+            onClick={() => navigate('/login')}
+            className="admin-login-link"
+          >
+            Admin Login
+          </button>
+        </div>
       </div>
     );
   }

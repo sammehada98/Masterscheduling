@@ -67,6 +67,11 @@ class ApiService {
     return response.data;
   }
 
+  async listLinks(auth: { username: string; password: string }) {
+    const response = await this.client.post('/links/listLinks', auth);
+    return response.data;
+  }
+
   // Sessions
   async getSessions(department?: Department): Promise<{ sessions: Session[] }> {
     const params = department ? { department } : {};
@@ -99,6 +104,27 @@ class ApiService {
   async saveTemplate(data: CreateTemplateInput): Promise<{ template: Template }> {
     const response = await this.client.post('/templates/saveTemplate', data);
     return response.data;
+  }
+
+  async manageTemplates(auth: { username: string; password: string }, action: 'list' | 'create' | 'delete', data?: any) {
+    if (action === 'list') {
+      const response = await this.client.get('/templates/manageTemplates', {
+        params: data?.department ? { department: data.department } : {},
+      });
+      return response.data;
+    } else if (action === 'create') {
+      const response = await this.client.post('/templates/manageTemplates', {
+        ...auth,
+        ...data,
+      });
+      return response.data;
+    } else if (action === 'delete') {
+      const response = await this.client.post('/templates/manageTemplates', {
+        ...auth,
+        templateId: data.templateId,
+      });
+      return response.data;
+    }
   }
 
   // Departments
