@@ -37,7 +37,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLinkCreated }) => {
   };
 
   const handleGenerateCodes = () => {
-    setAdminCode(generateCode());
+    setTrainerCode(generateCode());
     setCustomerCode(generateCode());
   };
 
@@ -134,14 +134,57 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLinkCreated }) => {
                 </button>
               </div>
 
+            <div className="form-section">
+              <h3>Dealership Information</h3>
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="adminCode">Admin Code</label>
+                  <label htmlFor="dealershipName">Dealership Name *</label>
                   <input
-                    id="adminCode"
+                    id="dealershipName"
                     type="text"
-                    value={adminCode}
-                    onChange={(e) => setAdminCode(e.target.value.toUpperCase())}
+                    value={dealershipName}
+                    onChange={(e) => setDealershipName(e.target.value)}
+                    placeholder="Enter dealership name"
+                    required
+                    disabled={loading}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="language">Language</label>
+                  <select
+                    id="language"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value as 'en' | 'fr')}
+                    disabled={loading}
+                  >
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-section">
+              <div className="form-section-header">
+                <h3>Access Codes</h3>
+                <button
+                  type="button"
+                  onClick={handleGenerateCodes}
+                  className="generate-button"
+                >
+                  Generate Random Codes
+                </button>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="trainerCode">Trainer Code (Edit Access)</label>
+                  <input
+                    id="trainerCode"
+                    type="text"
+                    value={trainerCode}
+                    onChange={(e) => setTrainerCode(e.target.value.toUpperCase())}
                     placeholder="Leave empty to auto-generate"
                     pattern="[A-Za-z0-9]{6,20}"
                     disabled={loading}
@@ -149,7 +192,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onLinkCreated }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="customerCode">Customer Code</label>
+                  <label htmlFor="customerCode">Customer Code (View Access)</label>
                   <input
                     id="customerCode"
                     type="text"

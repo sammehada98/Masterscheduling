@@ -4,6 +4,8 @@ import { authService } from './services/auth';
 import { AccessControl } from './pages/AccessControl';
 import { ScheduleView } from './pages/ScheduleView';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { Login } from './pages/Login';
+import { DealershipManagement } from './pages/DealershipManagement';
 import './App.css';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -20,6 +22,14 @@ const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return <>{children}</>;
 };
 
+const SuperAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const isSuperAdmin = sessionStorage.getItem('super_admin');
+  if (!isSuperAdmin) {
+    return <Navigate to="/login" replace />;
+  }
+  return <>{children}</>;
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +38,18 @@ function App() {
           path="/"
           element={
             <AccessControl />
+          }
+        />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+        <Route
+          path="/manage"
+          element={
+            <SuperAdminRoute>
+              <DealershipManagement />
+            </SuperAdminRoute>
           }
         />
         <Route

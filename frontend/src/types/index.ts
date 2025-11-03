@@ -83,6 +83,7 @@ export interface UpdateSessionInput extends CreateSessionInput {
 }
 
 export interface CreateTemplateInput {
+  id?: string;
   department: Department;
   sessionCode: string;
   sessionName: string;

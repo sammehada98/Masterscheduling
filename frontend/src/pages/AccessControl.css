@@ -21,3 +21,19 @@
   color: #6b7280;
   max-width: 500px;
 }
+
+.admin-login-link {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.admin-login-link:hover {
+  opacity: 0.9;
+}
